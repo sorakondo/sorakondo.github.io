@@ -1,0 +1,42 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { url } from "../lib/content";
+interface Props {
+  project: CollectionEntry<"projects">;
+  index?: number;
+}
+const { project, index = 0 } = Astro.props;
+---
+
+<a class="project-card" href={url(`projects/${project.id}/`)}>
+  <div
+    class:list={["project-visual", `visual-${index % 2}`]}
+    aria-hidden="true"
+  >
+    <svg viewBox="0 0 400 180" fill="none">
+      <path
+        class="grid-lines"
+        d="M0 45h400M0 90h400M0 135h400M50 0v180M100 0v180M150 0v180M200 0v180M250 0v180M300 0v180M350 0v180"
+      />
+      <path
+        class="signal"
+        d="M0 110h45l15-45 25 80 25-110 25 105 25-60 20 30h30l20-50 25 65 25-45 20 30h100"
+      />
+      <circle cx="200" cy="90" r="42" />
+      <circle cx="200" cy="90" r="22" />
+    </svg>
+    <span>DEMO PROJECT / {String(index + 1).padStart(2, "0")}</span>
+  </div>
+  <div class="project-body">
+    <div class="project-top">
+      <h3>{project.data.title}</h3>
+      <span>↗</span>
+    </div>
+    <p>{project.data.description}</p>
+    <div class="tags">
+      {project.data.tags.map((tag) => (
+        <span>{tag}</span>
+      ))}
+    </div>
+  </div>
+</a>

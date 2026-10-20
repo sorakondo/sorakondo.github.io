@@ -1,0 +1,39 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeading from "./PageHeading.astro";
+import PostList from "./PostList.astro";
+import { posts, tagUrl } from "../lib/content";
+interface Props {
+  kind: "articles" | "notes";
+}
+const { kind } = Astro.props;
+const entries = await posts(kind);
+const tags = [...new Set(entries.flatMap((p) => p.data.tags))].sort();
+const isNote = kind === "notes";
+---
+
+<BaseLayout title={isNote ? "Notes" : "Articles"}>
+  <PageHeading
+    label={isNote ? "05 / FIELD NOTES" : "04 / ARTICLES"}
+    title={isNote ? "日々のメモ" : "技術記事"}
+    description={
+      isNote
+        ? "小さな発見、つまずき、忘れたくないこと。"
+        : "考えたことを整理して、次の人へ。"
+    }
+  />
+  <div class="filter-bar">
+    <span class="eyebrow">{entries.length} ENTRIES</span>
+    <div class="tags">
+      <a href="#entries" aria-current="true">
+        すべて
+      </a>
+      {tags.map((tag) => (
+        <a href={tagUrl(tag)}>#{tag}</a>
+      ))}
+    </div>
+  </div>
+  <div id="entries">
+    <PostList entries={entries} />
+  </div>
+</BaseLayout>

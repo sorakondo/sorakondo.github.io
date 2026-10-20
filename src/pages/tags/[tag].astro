@@ -1,0 +1,23 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHeading from "../../components/PageHeading.astro";
+import PostList from "../../components/PostList.astro";
+import { allPosts } from "../../lib/content";
+export async function getStaticPaths() {
+  const entries = await allPosts();
+  return [...new Set(entries.flatMap((p) => p.data.tags))].map((tag) => ({
+    params: { tag },
+    props: { tag, entries: entries.filter((p) => p.data.tags.includes(tag)) },
+  }));
+}
+const { tag, entries } = Astro.props;
+---
+
+<BaseLayout title={`#${tag}`}>
+  <PageHeading
+    label="TOPIC INDEX"
+    title={`#${tag}`}
+    description={`${entries.length} 件の記事・メモ`}
+  />
+  <PostList entries={entries} />
+</BaseLayout>

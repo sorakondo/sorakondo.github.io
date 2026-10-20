@@ -1,0 +1,102 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import PostList from "../components/PostList.astro";
+import {
+  allPosts,
+  posts,
+  type Post,
+  date,
+  postUrl,
+  tagUrl,
+  url,
+} from "../lib/content";
+import type { MarkdownHeading } from "astro";
+interface Props {
+  post: Post;
+  headings: MarkdownHeading[];
+}
+const { post, headings } = Astro.props;
+const siblings = await posts(post.collection);
+const index = siblings.findIndex((p) => p.id === post.id);
+const newer = siblings[index - 1];
+const older = siblings[index + 1];
+const related = (await allPosts())
+  .filter(
+    (p) =>
+      !(p.id === post.id && p.collection === post.collection) &&
+      p.data.tags.some((tag) => post.data.tags.includes(tag)),
+  )
+  .slice(0, 3);
+---
+
+<BaseLayout title={post.data.title} description={post.data.description} article>
+  <article data-pagefind-body>
+    <header class="post-header">
+      <a class="eyebrow" href={url(`${post.collection}/`)}>
+        ← {post.collection.toUpperCase()}
+      </a>
+      <h1 data-pagefind-meta="title">{post.data.title}</h1>
+      <p data-pagefind-meta="description">{post.data.description}</p>
+      <div class="post-meta">
+        <time datetime={date(post.data.pubDate)}>
+          公開 {date(post.data.pubDate)}
+        </time>
+        {post.data.updatedDate && (
+          <time datetime={date(post.data.updatedDate)}>
+            更新 {date(post.data.updatedDate)}
+          </time>
+        )}
+      </div>
+      <div class="tags" data-pagefind-ignore>
+        {post.data.tags.map((tag) => (
+          <a href={tagUrl(tag)}>#{tag}</a>
+        ))}
+      </div>
+    </header>
+    <div class="reading-grid">
+      <div class="prose">
+        <slot />
+      </div>
+      {headings.length > 0 && (
+        <aside class="toc" data-pagefind-ignore>
+          <nav aria-label="目次">
+            <p class="eyebrow">ON THIS PAGE</p>
+            <ol>
+              {headings
+                .filter((h) => h.depth > 1 && h.depth < 4)
+                .map((h) => (
+                  <li class:list={{ "toc-sub": h.depth === 3 }}>
+                    <a href={`#${h.slug}`}>{h.text}</a>
+                  </li>
+                ))}
+            </ol>
+          </nav>
+        </aside>
+      )}
+    </div>
+  </article>
+  <nav class="post-pagination" aria-label="前後の記事">
+    {newer ? (
+      <a href={postUrl(newer)}>
+        <span>← 新しい記事</span>
+        {newer.data.title}
+      </a>
+    ) : (
+      <span />
+    )}
+    {older ? (
+      <a href={postUrl(older)}>
+        <span>古い記事 →</span>
+        {older.data.title}
+      </a>
+    ) : (
+      <span />
+    )}
+  </nav>
+  {related.length > 0 && (
+    <section class="section">
+      <h2>関連する記事・メモ</h2>
+      <PostList entries={related} />
+    </section>
+  )}
+</BaseLayout>

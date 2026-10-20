@@ -1,0 +1,36 @@
+---
+import { type Post, date, postUrl, tagUrl } from "../lib/content";
+interface Props {
+  entries: Post[];
+  compact?: boolean;
+}
+const { entries, compact = false } = Astro.props;
+---
+
+<div class:list={["post-list", { compact }]}>
+  {entries.map((post) => (
+    <article class="post-row">
+      <div class="post-meta">
+        <time datetime={date(post.data.pubDate)}>
+          {date(post.data.pubDate)}
+        </time>
+        <span>{post.collection === "notes" ? "NOTE" : "ARTICLE"}</span>
+      </div>
+      <div class="post-info">
+        <h3>
+          <a href={postUrl(post)}>
+            {post.data.title}
+            <span aria-hidden="true">↗</span>
+          </a>
+        </h3>
+        <p>{post.data.description}</p>
+        <div class="tags">
+          {post.data.tags.map((tag) => (
+            <a href={tagUrl(tag)}>#{tag}</a>
+          ))}
+        </div>
+      </div>
+    </article>
+  ))}
+  {!entries.length && <p class="muted">公開された記事はまだありません。</p>}
+</div>

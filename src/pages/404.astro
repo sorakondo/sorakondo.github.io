@@ -1,0 +1,14 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { url } from "../lib/content";
+---
+
+<BaseLayout title="ページが見つかりません">
+  <div class="page-heading">
+    <p class="eyebrow">404 / NOT FOUND</p>
+    <h1>ページが見つかりません。</h1>
+    <p>
+      <a href={url("/")}>Homeへ戻る →</a>
+    </p>
+  </div>
+</BaseLayout>

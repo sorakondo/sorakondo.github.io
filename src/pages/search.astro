@@ -1,0 +1,51 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeading from "../components/PageHeading.astro";
+import { url } from "../lib/content";
+---
+
+<BaseLayout title="Search">
+  <PageHeading
+    label="SEARCH THE ARCHIVE"
+    title="サイト内検索"
+    description="技術記事と日々のメモを、日本語・英語で検索。"
+  />
+  <div id="search" data-base={url("/")} aria-label="記事の全文検索"></div>
+  <p id="search-status" class="muted" role="status"></p>
+  <noscript>
+    全文検索にはJavaScriptを有効にしてください。Articles・Notesの一覧からも記事を探せます。
+  </noscript>
+  <script>
+    const root = document.querySelector<HTMLElement>("#search");
+    if (root) {
+      const base = root.dataset.base!;
+      const css = document.createElement("link");
+      css.rel = "stylesheet";
+      css.href = `${base}pagefind/pagefind-ui.css`;
+      document.head.append(css);
+      const script = document.createElement("script");
+      script.src = `${base}pagefind/pagefind-ui.js`;
+      script.onload = () => {
+        new (
+          window as unknown as { PagefindUI: new (options: object) => unknown }
+        ).PagefindUI({
+          element: "#search",
+          baseUrl: base,
+          bundlePath: `${base}pagefind/`,
+          showSubResults: true,
+          translations: {
+            placeholder: "キーワードを入力…",
+            zero_results: "「[SEARCH_TERM]」の検索結果はありません",
+            searching: "検索中…",
+            clear_search: "クリア",
+          },
+        });
+      };
+      script.onerror = () => {
+        document.querySelector("#search-status")!.textContent =
+          "検索インデックスがありません。pnpm build → pnpm preview で確認してください。";
+      };
+      document.body.append(script);
+    }
+  </script>
+</BaseLayout>

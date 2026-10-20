@@ -1,0 +1,35 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeading from "../components/PageHeading.astro";
+import PostList from "../components/PostList.astro";
+import { allPosts } from "../lib/content";
+import { profile } from "../site";
+const related = (await allPosts()).filter((post) =>
+  post.data.tags.includes("Research"),
+);
+---
+
+<BaseLayout title="Research">
+  <PageHeading
+    label="02 / RESEARCH"
+    title="研究"
+    description="問いを立て、手を動かし、確かめる。"
+  />
+  {profile.research.map((theme) => (
+    <section class="panel">
+      <p class="eyebrow">RESEARCH THEME / 準備中</p>
+      <h2>{theme.title}</h2>
+      <p>{theme.summary}</p>
+      <h3>使用技術</h3>
+      <p>{theme.technologies.join(" / ")}</p>
+      <h3>学会発表・論文</h3>
+      {theme.publications.map((text) => (
+        <p class="muted">{text}</p>
+      ))}
+    </section>
+  ))}
+  <section class="section">
+    <h2>関連する記事・ノート</h2>
+    <PostList entries={related} />
+  </section>
+</BaseLayout>
