@@ -10,7 +10,7 @@ const projects = await getCollection("projects", ({ data }) => !data.draft);
   <PageHeading
     label="03 / PROJECTS"
     title="プロジェクト"
-    description="小さな実験から、動くものへ。掲載内容はデモです。"
+    description="掲載内容はデモです。"
   />
   <div class="project-grid">
     {projects.map((project, index) => (

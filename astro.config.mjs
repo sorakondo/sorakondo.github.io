@@ -12,6 +12,14 @@ export default defineConfig({
   base,
   output: "static",
   trailingSlash: "always",
+  redirects: {
+    "/articles/": "/blog/",
+    "/notes/": "/blog/",
+    "/articles/mdx-example/": "/blog/mdx-example/",
+    "/articles/markdown-field-guide/": "/blog/markdown-field-guide/",
+    "/notes/git-diff-tips/": "/blog/git-diff-tips/",
+    "/notes/python-pathlib/": "/blog/python-pathlib/"
+},
   integrations: [mdx(), sitemap()],
   vite: { plugins: [tailwindcss()] },
   markdown: {

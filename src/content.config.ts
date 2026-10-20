@@ -28,8 +28,7 @@ const collection = (name: string) =>
     schema: metadata,
   });
 export const collections = {
-  articles: collection("articles"),
-  notes: collection("notes"),
+  blog: collection("blog"),
   projects: defineCollection({
     loader: glob({ base: "./src/content/projects", pattern: "**/*.{md,mdx}" }),
     schema: z.object({

@@ -13,7 +13,7 @@ draft: false
 ```python
 from pathlib import Path
 
-notes_dir = Path("src") / "content" / "notes"
+notes_dir = Path("src") / "content" / "blog"
 for note in sorted(notes_dir.glob("*.md")):
     print(note.name)
 ```

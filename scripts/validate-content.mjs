@@ -11,7 +11,7 @@ async function walk(dir) {
   }
   return out;
 }
-for (const collection of ["articles", "notes", "projects"]) {
+for (const collection of ["blog", "projects"]) {
   const dir = path.join(root, collection);
   const ids = new Set();
   for (const filename of await walk(dir)) {

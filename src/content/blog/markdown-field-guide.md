@@ -11,7 +11,7 @@ draft: false
 
 ## Markdownからはじめる
 
-記事は `src/content/articles/` に、短いメモは `src/content/notes/` に保存します。ファイル名がそのままURLになるので、公開後は変更しない運用がおすすめです。
+記事・メモは `src/content/blog/` に保存します。ファイル名がそのままURLになるので、公開後は変更しない運用がおすすめです。
 
 ![MarkdownをAstroで静的HTMLへ変換する流れ](../../assets/workflow.svg)
 
@@ -58,12 +58,11 @@ flowchart LR
 
 | 種類 | 保存先 | 用途 |
 | --- | --- | --- |
-| Articles | `articles/` | まとまった技術記事 |
-| Notes | `notes/` | 短いメモ・Tips |
+| Blog | `blog/` | 技術記事・メモ・Tips |
 
 > 小さな発見も、あとから再現できるかたちで残す。
 
-関連メモ：[Gitで差分を確認する](../../notes/git-diff-tips/)
+関連メモ：[Gitで差分を確認する](../../blog/git-diff-tips/)
 
 ## 公開前の確認
 

@@ -37,8 +37,7 @@ Linux/WSLでは上記の `Remove-Item` 行は不要です。PowerShellではこ�
 | 型チェック | `nr check` | `pnpm check` |
 | ビルド | `nr build` | `pnpm build` |
 | プレビュー | `nr preview` | `pnpm preview` |
-| メモ作成 | `nr new:note` | `pnpm new:note` |
-| 記事作成 | `nr new:article` | `pnpm new:article` |
+| 投稿作成 | `nr new:blog` | `pnpm new:blog` |
 
 GitHub Actionsでは `packageManager` 指定のpnpmとlockfile固定インストールを直接使用します。
 
@@ -49,9 +48,10 @@ LinuxでChromiumの共有ライブラリが不足する場合は `na exec playwr
 ## 記事・メモを追加する
 
 ```powershell
-nr new:note
-nr new:article
+nr new:blog
 ```
+
+投稿はすべて `src/content/blog/` に保存し、`/blog/` に表示します。旧 `/articles/`・`/notes/` の公開済みサンプルURLは対応するBlogへ転送します。
 
 タイトル・slug・タグを対話入力します。英語タイトルからはslug候補を生成し、日本語タイトルには英数字slugを指定できます。タグはカンマ区切りです。生成先を表示し、既存の `.md` / `.mdx` を上書きしません。デフォルトは下書きです。公開日はUTCの当日を設定します。
 
@@ -68,8 +68,8 @@ draft: true
 
 `updatedDate` は任意（公開日以降）、他のメタデータはスキーマで検証します。`draft` 未指定も下書き扱いです。公開前に `draft: false` に変更してください。下書きは詳細URL・一覧・タグ・RSS・サイトマップ・検索に含まれません。これはGitリポジトリのソースを非公開にする機能ではありません。
 
-- `src/content/articles/klayout-tips.md` → `/articles/klayout-tips/`
-- `src/content/notes/git/example.md` → `/notes/git/example/`
+- `src/content/blog/klayout-tips.md` → `/blog/klayout-tips/`
+- `src/content/blog/git/example.md` → `/blog/git/example/`
 - `.mdx` も同じ規則。拡張子はURLに含まれません。
 - ファイル名・ディレクトリ名は英小文字・数字・ハイフンを使用します。
 - 公開後はファイル名を保持してください。`.md` と `.mdx` に同じslugを重複させないでください。
@@ -164,7 +164,7 @@ src/
   assets/                     # 記事の画像
   components/                 # 一覧・カード・共通見出し
   layouts/                    # 共通レイアウト・記事レイアウト
-  content/{articles,notes,projects}/
+  content/{blog,projects}/
   lib/content.ts              # 公開フィルター・URL・日付
   pages/                      # 静的ルート・RSS・robots
   styles/global.css           # 配色・タイポグラフィ・レスポンシブ

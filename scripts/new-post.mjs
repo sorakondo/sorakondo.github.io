@@ -3,7 +3,7 @@ import { stdin, stdout } from "node:process";
 import { mkdir, open, readdir } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
-export async function newPost(kind) {
+export async function newPost() {
   const rl = createInterface({ input: stdin, output: stdout });
   try {
     const title = (await rl.question("Title: ")).trim();
@@ -29,7 +29,7 @@ export async function newPost(kind) {
       .map((t) => t.trim())
       .filter(Boolean);
     const dir = fileURLToPath(
-      new URL(`../src/content/${kind}/`, import.meta.url),
+      new URL(`../src/content/blog/`, import.meta.url),
     );
     await mkdir(dir, { recursive: true });
     // MDXとMarkdownが同じURLになるケースも拒否する。
@@ -37,7 +37,7 @@ export async function newPost(kind) {
     if (files.includes(`${slug}.md`) || files.includes(`${slug}.mdx`))
       throw new Error("同じslugのファイルが既に存在します。");
     const today = new Date().toISOString().slice(0, 10);
-    const content = `---\ntitle: ${JSON.stringify(title)}\ndescription: ${JSON.stringify(title + "についてのメモ")}\npubDate: ${today}\ntags: ${JSON.stringify([...new Set(tags)])}\ndraft: true\n---\n\n## ${kind === "notes" ? "メモ" : "はじめに"}\n\nここに本文を書きます。\n`;
+    const content = `---\ntitle: ${JSON.stringify(title)}\ndescription: ${JSON.stringify(title + "についてのメモ")}\npubDate: ${today}\ntags: ${JSON.stringify([...new Set(tags)])}\ndraft: true\n---\n\n## はじめに\n\nここに本文を書きます。\n`;
     const filename = path.join(dir, `${slug}.md`);
     const handle = await open(filename, "wx");
     try {

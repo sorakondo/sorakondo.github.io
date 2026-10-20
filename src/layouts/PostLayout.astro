@@ -16,7 +16,7 @@ interface Props {
   headings: MarkdownHeading[];
 }
 const { post, headings } = Astro.props;
-const siblings = await posts(post.collection);
+const siblings = await posts();
 const index = siblings.findIndex((p) => p.id === post.id);
 const newer = siblings[index - 1];
 const older = siblings[index + 1];

@@ -2,13 +2,13 @@
 @import "katex/dist/katex.min.css";
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 :root {
-  --bg: #f8f9f7;
+  --bg: #f7f8fa;
   --panel: #fff;
-  --ink: #252e2c;
-  --muted: #66726f;
-  --line: #dde3df;
-  --accent: #087b62;
-  --soft: #eaf1ed;
+  --ink: #182d2a;
+  --muted: #60716d;
+  --line: #e0e7e4;
+  --accent: #087f68;
+  --soft: #e8f2ed;
   --code: #f1f4f2;
   color-scheme: light;
   font-family:
@@ -97,16 +97,18 @@ video {
   max-width: 100%;
 }
 .container {
-  max-width: 1120px;
+  max-width: 1200px;
   padding-inline: 36px;
   margin-inline: auto;
 }
 .site-header {
   border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--panel) 85%, transparent);
+  backdrop-filter: blur(16px);
 }
 .header-inner {
   max-width: 1376px;
-  padding: 24px 40px;
+  padding: 22px 40px;
   margin: auto;
   display: flex;
   align-items: center;
@@ -149,7 +151,7 @@ video {
 }
 .header-inner nav {
   display: flex;
-  gap: 25px;
+  gap: 8px;
   margin-left: auto;
   font-size: 12px;
   font-weight: 550;
@@ -157,14 +159,17 @@ video {
 .header-inner nav a {
   color: var(--muted);
   position: relative;
+  padding: 7px 12px;
+  border-radius: 8px;
 }
 .header-inner nav a[aria-current="page"] {
   color: var(--accent);
+  background: var(--soft);
 }
 .header-inner nav a[aria-current="page"]:after {
   content: "";
   position: absolute;
-  bottom: -28px;
+  bottom: -23px;
   left: 0;
   right: 0;
   height: 2px;
@@ -181,8 +186,9 @@ video {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 32px;
-  min-height: 32px;
+  min-width: 40px;
+  min-height: 40px;
+  border-radius: 50%;
   border: 0;
   background: transparent;
   font-size: 23px;
@@ -210,10 +216,10 @@ video {
 }
 .hero {
   display: grid;
-  grid-template-columns: 1.2fr 1fr;
+  grid-template-columns: 1.25fr 1fr;
   gap: 45px;
   align-items: center;
-  padding-block: 85px 65px;
+  padding-block: 100px 80px;
 }
 .hero .eyebrow {
   display: flex;
@@ -221,14 +227,14 @@ video {
   gap: 10px;
 }
 .hero h1 {
-  font-size: clamp(36px, 4.1vw, 55px);
+  font-size: clamp(36px, 4.7vw, 64px);
   font-weight: 650;
   letter-spacing: -0.065em;
-  line-height: 1.5;
-  margin: 24px 0;
+  line-height: 1.4;
+  margin: 28px 0;
 }
 .hero-intro {
-  max-width: 420px;
+  max-width: 460px;
   line-height: 2.1;
   color: var(--muted);
   font-size: 14px;
@@ -245,8 +251,8 @@ video {
   gap: 28px;
   background: var(--ink);
   color: var(--bg);
-  padding: 11px 20px;
-  border-radius: 5px;
+  padding: 14px 23px;
+  border-radius: 10px;
   font-size: 12px;
   font-weight: 550;
 }
@@ -278,20 +284,23 @@ video {
   color: var(--muted);
 }
 .hero-art {
-  height: 350px;
+  height: 390px;
   position: relative;
   overflow: hidden;
-  background-image: radial-gradient(var(--line) 1px, transparent 1px);
+  background-color: var(--soft);
+  background-image: radial-gradient(color-mix(in srgb, var(--accent) 18%, transparent) 1px, transparent 1px);
   background-size: 18px 18px;
-  border-radius: 50%;
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  transform: rotate(-3deg);
   isolation: isolate;
 }
 .orbital {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 245px;
-  height: 245px;
+  width: 280px;
+  height: 280px;
   border: 1px solid var(--accent);
   border-radius: 50%;
   opacity: 0.5;
@@ -373,7 +382,9 @@ video {
   display: flex;
   align-items: center;
   gap: 34px;
-  padding-block: 20px;
+  padding: 22px 24px;
+  border-radius: 12px;
+  background: var(--panel);
   font-size: 12px;
 }
 .field-strip small {
@@ -388,7 +399,7 @@ video {
   font-size: 10px;
 }
 .section {
-  padding-block: 55px 0;
+  padding-block: 72px 0;
 }
 .section-heading {
   display: flex;
@@ -413,19 +424,21 @@ video {
 .project-card {
   display: block;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 18px;
   overflow: hidden;
   background: var(--panel);
-  transition: border-color 0.15s;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
 }
 .project-card:hover {
   border-color: var(--accent);
+  transform: translateY(-5px);
+  box-shadow: 0 16px 35px color-mix(in srgb, var(--ink) 8%, transparent);
 }
 .project-visual {
   position: relative;
   background: #eaf0ec;
   padding: 10px 30px 23px;
-  height: 180px;
+  height: 205px;
   color: #337960;
   overflow: hidden;
 }
@@ -464,7 +477,7 @@ video {
   stroke-width: 1.5;
 }
 .project-body {
-  padding: 21px 23px;
+  padding: 26px 28px;
 }
 .project-top {
   display: flex;
@@ -494,7 +507,7 @@ video {
   padding: 3px 8px;
   background: var(--soft);
   color: var(--muted);
-  border-radius: 3px;
+  border-radius: 6px;
 }
 .tags a:hover {
   color: var(--accent);
@@ -570,7 +583,8 @@ video {
   gap: 12px;
   padding: 18px 20px;
   background: var(--soft);
-  border-radius: 5px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
   margin: 45px 0 65px;
   font-size: 11px;
   color: var(--muted);
@@ -638,7 +652,7 @@ video {
   border: 1px solid var(--line);
   background: var(--panel);
   padding: 30px;
-  border-radius: 7px;
+  border-radius: 16px;
 }
 .panel h2 {
   margin-bottom: 18px;
@@ -907,7 +921,7 @@ video {
     grid-template-columns: minmax(0, 1fr) 170px;
   }
 }
-@media (max-width: 760px) {
+@media (max-width: 900px) {
   .container {
     padding-inline: 24px;
   }
@@ -920,11 +934,12 @@ video {
     order: 3;
     width: 100%;
     overflow-x: auto;
-    gap: 24px;
+    gap: 4px;
     padding: 10px 0 6px;
+    white-space: nowrap;
   }
   .header-inner nav a[aria-current="page"]:after {
-    bottom: -5px;
+    display: none;
   }
   .header-tools {
     margin-left: auto;
@@ -935,7 +950,7 @@ video {
     grid-template-columns: 1fr;
   }
   .hero h1 {
-    font-size: 43px;
+    font-size: clamp(34px, 8.5vw, 48px);
   }
   .hero-art {
     display: none;
@@ -1048,6 +1063,26 @@ video {
     scroll-behavior: auto;
   }
   * {
+    animation: none !important;
     transition: none !important;
   }
+}
+
+.icon-button:hover {
+  background: var(--soft);
+  color: var(--accent);
+}
+.header-inner nav a:hover {
+  color: var(--accent);
+  background: var(--soft);
+}
+.post-info h3 a:hover span {
+  color: var(--accent);
+}
+@media (max-width: 900px) {
+  .hero-actions { gap: 22px; }
+  .hero-signature { flex-wrap: wrap; gap: 10px; }
+  .field-strip { padding: 20px; }
+  .section-heading { align-items: center; gap: 12px; }
+  .section-heading .text-link { font-size: 11px; }
 }

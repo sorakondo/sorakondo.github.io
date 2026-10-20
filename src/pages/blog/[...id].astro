@@ -3,7 +3,7 @@ import { render } from "astro:content";
 import PostLayout from "../../layouts/PostLayout.astro";
 import { posts } from "../../lib/content";
 export async function getStaticPaths() {
-  return (await posts("articles")).map((post) => ({
+  return (await posts()).map((post) => ({
     params: { id: post.id },
     props: { post },
   }));

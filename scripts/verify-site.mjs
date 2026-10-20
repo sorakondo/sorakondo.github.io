@@ -14,10 +14,9 @@ try {
     "about/",
     "research/",
     "projects/",
-    "articles/",
-    "notes/",
-    "articles/markdown-field-guide/",
-    "articles/mdx-example/",
+    "blog/",
+    "blog/markdown-field-guide/",
+    "blog/mdx-example/",
     "tags/研究ノート/",
     "search/",
   ]) {
@@ -25,10 +24,10 @@ try {
     assert.equal(response.status(), 200, route);
     assert.equal(await page.locator("h1").count(), 1, route);
   }
-  await page.goto(new URL("articles/mdx-example/", origin).href);
+  await page.goto(new URL("blog/mdx-example/", origin).href);
   assert.ok(await page.locator(".prose .notice").count());
   assert.ok(await page.locator(".prose .katex").count());
-  await page.goto(new URL("articles/markdown-field-guide/", origin).href);
+  await page.goto(new URL("blog/markdown-field-guide/", origin).href);
   assert.ok(await page.locator(".katex").count());
   assert.ok(await page.locator("pre.astro-code").count());
   assert.ok(await page.locator('img[src^="data:image/svg+xml"]').count());
@@ -38,8 +37,8 @@ try {
     await page.setViewportSize({ width, height: 900 });
     for (const route of [
       "",
-      "articles/markdown-field-guide/",
-      "notes/",
+      "blog/markdown-field-guide/",
+      "blog/",
       "search/",
     ]) {
       await page.goto(new URL(route, origin).href);
@@ -100,9 +99,9 @@ try {
     return data.map((d) => ({ url: d.url, title: d.meta.title }));
   }, origin);
   assert.ok(indexed.length >= 4);
-  assert.ok(indexed.every((p) => /\/(articles|notes)\//.test(p.url)));
+  assert.ok(indexed.every((p) => /\/blog\//.test(p.url)));
   assert.ok(indexed.every((p) => !p.title.includes("DRAFT_SENTINEL")));
-  const draft = await page.goto(new URL("notes/draft-example/", origin).href);
+  const draft = await page.goto(new URL("blog/draft-example/", origin).href);
   assert.equal(draft.status(), 404);
   const rss = await (
     await page.request.get(new URL("rss.xml", origin).href)

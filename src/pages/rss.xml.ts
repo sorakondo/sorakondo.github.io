@@ -4,7 +4,7 @@ import { allPosts, postUrl } from "../lib/content";
 import { profile } from "../site";
 export async function GET(context: APIContext) {
   return rss({
-    title: `${profile.name} — Articles & Notes`,
+    title: `${profile.name} — Blog`,
     description: profile.description,
     site: context.site!,
     items: (await allPosts()).map((post) => ({
