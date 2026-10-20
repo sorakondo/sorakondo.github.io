@@ -37,6 +37,8 @@ MEMSデバイスの設計で、Pythonを使ってGDSファイルを生成し、K
 
 全体の構成は次のとおり。
 
+<p class="code-label">構成図：Windows 11 + WSL2</p>
+
 ```text
 Windows 11
 │
@@ -101,11 +103,15 @@ Pythonのパッケージ管理には`uv`を使用する。
 
 WSL上で以下を実行する。
 
+<p class="code-label">WSL / Bash</p>
+
 ```bash
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
 シェルを再起動し、`uv`コマンドが使用できることを確認する。
+
+<p class="code-label">WSL / Bash</p>
 
 ```bash
 uv --version
@@ -113,11 +119,15 @@ uv --version
 
 ### 4.2 Python 3.12の準備
 
+<p class="code-label">WSL / Bash</p>
+
 ```bash
 uv python install 3.12
 ```
 
 プロジェクトを作成する。
+
+<p class="code-label">WSL / Bash</p>
 
 ```bash
 mkdir -p ~/workspace/klayout-mems
@@ -130,11 +140,15 @@ uv init --python 3.12
 
 ### 4.3 KLayout Pythonパッケージの導入
 
+<p class="code-label">WSL / Bash</p>
+
 ```bash
 uv add klayout
 ```
 
 インストール後に確認する。
+
+<p class="code-label">WSL / Bash</p>
 
 ```bash
 uv run python -c "import klayout.db as kdb; print(kdb.Layout())"
@@ -143,6 +157,8 @@ uv run python -c "import klayout.db as kdb; print(kdb.Layout())"
 エラーが出なければ準備完了。
 
 Pythonからは以下のようにインポートする。
+
+<p class="code-label">Python：インポート例</p>
 
 ```python
 import klayout.db as kdb
@@ -153,6 +169,8 @@ import klayout.db as kdb
 最小限のサンプルとして、20 µm × 10 µmの四角形を1つ生成する。
 
 `generate_gds.py`を作成する。
+
+<p class="code-label">generate_gds.py</p>
 
 ```python
 from pathlib import Path
@@ -186,11 +204,15 @@ print(f"Generated: {output.resolve()}")
 
 WSL上で実行する。
 
+<p class="code-label">WSL / Bash</p>
+
 ```bash
 uv run python generate_gds.py
 ```
 
 次のファイルが生成される。
+
+<p class="code-label">出力ファイル構成</p>
 
 ```text
 klayout-mems/
@@ -209,11 +231,15 @@ WSLとWindowsではファイルパスの形式が異なる。
 
 例えば、WSL上のGDSは以下に保存されている。
 
+<p class="code-label">WSLのファイルパス</p>
+
 ```text
 /home/<user>/workspace/klayout-mems/output/rectangle.gds
 ```
 
 Windowsからアクセスする場合は、次のUNCパスを使用する。
+
+<p class="code-label">WindowsのUNCパス</p>
 
 ```text
 \\wsl.localhost\Ubuntu-24.04\home\<user>\workspace\klayout-mems\output\rectangle.gds
@@ -222,6 +248,8 @@ Windowsからアクセスする場合は、次のUNCパスを使用する。
 ### 6.1 wslpathでパスを変換する
 
 WSLで以下を実行する。
+
+<p class="code-label">WSL / Bash</p>
 
 ```bash
 wslpath -w "$(realpath output/rectangle.gds)"
@@ -246,11 +274,15 @@ Windows版KLayoutを起動する。
 
 Pythonコードの四角形を、例えば次のように変更する。
 
+<p class="code-label">generate_gds.py：四角形の変更箇所</p>
+
 ```python
 kdb.Box(0, 0, 40_000, 10_000)
 ```
 
 再度実行する。
+
+<p class="code-label">WSL / Bash</p>
 
 ```bash
 uv run python generate_gds.py
@@ -290,11 +322,15 @@ KLiveは通常、Windows側の`127.0.0.1:8082`で待ち受ける。
 
 Windows PowerShellで確認する。
 
+<p class="code-label">Windows PowerShell</p>
+
 ```powershell
 Get-NetTCPConnection -LocalPort 8082 -State Listen
 ```
 
 今回の実行結果：
+
+<p class="code-label">出力例：待ち受けポート</p>
 
 ```text
 LocalAddress  LocalPort  State
@@ -303,6 +339,8 @@ LocalAddress  LocalPort  State
 ```
 
 プロセスも確認する。
+
+<p class="code-label">Windows PowerShell</p>
 
 ```powershell
 Get-NetTCPConnection -LocalPort 8082 -State Listen |
@@ -313,6 +351,8 @@ Get-NetTCPConnection -LocalPort 8082 -State Listen |
 ```
 
 今回の結果：
+
+<p class="code-label">出力例：プロセス</p>
 
 ```text
 Id     ProcessName
@@ -325,6 +365,8 @@ KLayoutが8082番ポートで待ち受けていることを確認できた。
 ## 9. PowerShellからKLiveへ通知する
 
 KLiveにはJSON形式でGDSのパスを送信する。
+
+<p class="code-label">JSON：KLiveリクエスト</p>
 
 ```json
 {
@@ -344,6 +386,8 @@ KLive 0.4.3では、リクエストJSONの末尾に改行を付ける。
 `test-klive.ps1`を作成する。
 
 以下では、TCPの分割受信に対応するため、応答データを蓄積し、JSONとして解析できた時点で読み込みを終了する。
+
+<p class="code-label">test-klive.ps1</p>
 
 ```powershell
 $ErrorActionPreference = 'Stop'
@@ -436,6 +480,8 @@ finally {
 
 実行する。
 
+<p class="code-label">Windows PowerShell</p>
+
 ```powershell
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\test-klive.ps1
 ```
@@ -445,6 +491,8 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\test-klive.ps1
 今回の環境では、MEMS設計用の`triple_beam.gds`を指定して動作確認した。
 
 以下は、**同じ通信方式を用いたPowerShellの通信試験で取得したログであり、9.1節の掲載スクリプトそのものの実行結果ではない。**
+
+<p class="code-label">通信ログ：KLiveの応答（JSON）</p>
 
 ```json
 {
@@ -502,6 +550,8 @@ WSL2の標準的なNAT構成では、WSLのlocalhostとWindowsのlocalhostは同
 
 本記事では、Windows側で通信を実行するPowerShell経由の方法を使用する。
 
+<p class="code-label">構成図：PowerShell経由の通知</p>
+
 ```text
 WSL2
   │
@@ -530,6 +580,8 @@ WSL2
 以下は、PowerShellの通信処理をPythonから実行するための実装例。
 
 `klive_reload.py`を作成する。
+
+<p class="code-label">klive_reload.py</p>
 
 ```python
 import base64
@@ -697,11 +749,15 @@ Python側の`subprocess.run(..., timeout=20)`は、PowerShellプロセスの実�
 
 まず、ファイル冒頭のインポート部分に以下を追加する。
 
+<p class="code-label">generate_gds.py：インポートへの追加</p>
+
 ```python
 from klive_reload import reload_klayout
 ```
 
 次に、既存のGDS保存部分を以下に置き換える。
+
+<p class="code-label">generate_gds.py：GDS保存部分の置き換え</p>
 
 ```python
 # GDSを保存
@@ -721,11 +777,15 @@ reload_klayout(output)
 
 通常どおりスクリプトを実行する。
 
+<p class="code-label">WSL / Bash</p>
+
 ```bash
 uv run python generate_gds.py
 ```
 
 想定する処理は以下のとおり。
+
+<p class="code-label">処理フロー</p>
 
 ```text
 Python実行
@@ -760,6 +820,8 @@ KLiveのアイコンは緑色で、8082番ポートも正常にListen状態だ�
 
 しかしPowerShellからJSONを送信すると、応答の読み取りでタイムアウトが発生した。
 
+<p class="code-label">エラーメッセージ例</p>
+
 ```text
 Unable to read data from the transport connection
 ```
@@ -787,6 +849,8 @@ KLiveの公式READMEでは、ツールバーのKLiveアイコンをクリック�
 
 実際のログ：
 
+<p class="code-label">KLayout Pythonコンソール：実行ログ</p>
+
 ```text
 Running macro .../klive/pymacros/klive.lym
 klive 0.4.3 stopped
@@ -803,6 +867,8 @@ klive 0.4.3 is running
 
 PowerShellで次を実行する。
 
+<p class="code-label">Windows PowerShell</p>
+
 ```powershell
 Test-Path -LiteralPath $gds
 ```
@@ -812,6 +878,8 @@ Test-Path -LiteralPath $gds
 特にディストリビューション名やLinux側のユーザー名が異なると、正しくアクセスできない。
 
 WSL側で次を実行すると、Windows形式のパスを取得できる。
+
+<p class="code-label">WSL / Bash</p>
 
 ```bash
 wslpath -w "$(realpath output/rectangle.gds)"

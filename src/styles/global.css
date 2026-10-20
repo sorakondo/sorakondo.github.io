@@ -733,6 +733,30 @@ video {
 .prose p {
   margin: 20px 0;
 }
+.prose .code-label {
+  display: table;
+  max-width: 100%;
+  margin: 24px 0 0;
+  padding: 5px 12px;
+  border: 1px solid var(--line);
+  border-bottom: 0;
+  border-radius: 5px 5px 0 0;
+  background: var(--line);
+  color: var(--ink);
+  font-family: var(--font-mono, monospace);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.prose .code-label + pre,
+.prose .code-label + .code-block {
+  margin-top: 0;
+}
+.prose .code-label + pre,
+.prose .code-label + .code-block pre {
+  border-top-left-radius: 0;
+}
 .prose a {
   color: var(--accent);
   text-decoration: underline;
@@ -848,21 +872,51 @@ video {
 .toc {
   position: sticky;
   top: 30px;
+  max-height: calc(100dvh - 60px);
+  overflow-y: auto;
+  scrollbar-width: thin;
   border-left: 1px solid var(--line);
-  padding-left: 20px;
-  font-size: 11px;
+  padding: 4px 8px 4px 16px;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.toc .eyebrow {
+  margin: 0 0 12px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0;
+  color: var(--ink);
 }
 .toc ol {
   list-style: none;
   padding: 0;
-  margin: 15px 0;
+  margin: 0;
 }
 .toc li {
-  margin: 10px 0;
-  color: var(--muted);
+  margin: 4px 0;
+  color: var(--ink);
+}
+.toc a {
+  display: block;
+  padding: 6px 8px;
+  border-radius: 4px;
+  overflow-wrap: anywhere;
+  text-decoration: none;
+}
+.toc a:hover,
+.toc a:focus-visible {
+  color: var(--accent);
+  background: var(--soft);
+}
+.toc li:not(.toc-sub) > a {
+  font-weight: 600;
 }
 .toc .toc-sub {
+  margin-left: 8px;
   padding-left: 12px;
+  border-left: 1px solid var(--line);
+  font-size: 12px;
+  color: var(--muted);
 }
 .post-pagination {
   display: grid;
@@ -1058,6 +1112,7 @@ video {
   .toc {
     order: -1;
     position: static;
+    max-height: none;
     width: 100%;
     padding: 15px 20px;
     background: var(--soft);
@@ -1065,15 +1120,13 @@ video {
     border-radius: 5px;
   }
   .toc ol {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px 20px;
+    display: block;
   }
   .toc li {
     margin: 0;
   }
   .toc .toc-sub {
-    padding: 0;
+    padding-left: 12px;
   }
   .post-header {
     padding-top: 40px;
