@@ -92,7 +92,7 @@ flowchart LR
 
 Mermaid図の前に説明文を書き、`accTitle` / `accDescr` を指定してください。SVGはライトのキャンバスを維持し、どちらの配色でも文字が読めるようにしています。ソースは信頼する著者が管理する前提です。
 
-MDXでAstroコンポーネントをimportできます。`mdx-example.mdx` を参考にしてください。通常はMarkdownだけで運用できます。
+MDXでAstroコンポーネントをimportできます。通常はMarkdownだけで運用できます。
 
 ## 画像・動画
 

@@ -15,29 +15,24 @@ try {
     "research/",
     "projects/",
     "blog/",
-    "blog/markdown-field-guide/",
-    "blog/mdx-example/",
-    "tags/研究ノート/",
+    "blog/python-gds-klayout-klive/",
+    "blog/klayout-dark-mode/",
+    "tags/KLayout/",
     "search/",
   ]) {
     const response = await page.goto(new URL(route, origin).href);
     assert.equal(response.status(), 200, route);
     assert.equal(await page.locator("h1").count(), 1, route);
   }
-  await page.goto(new URL("blog/mdx-example/", origin).href);
-  assert.ok(await page.locator(".prose .notice").count());
-  assert.ok(await page.locator(".prose .katex").count());
-  await page.goto(new URL("blog/markdown-field-guide/", origin).href);
-  assert.ok(await page.locator(".katex").count());
+  await page.goto(new URL("blog/python-gds-klayout-klive/", origin).href);
   assert.ok(await page.locator("pre.astro-code").count());
-  assert.ok(await page.locator('img[src^="data:image/svg+xml"]').count());
   await page.locator(".toc a").first().click();
   assert.ok(new URL(page.url()).hash);
   for (const width of [390, 768, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     for (const route of [
       "",
-      "blog/markdown-field-guide/",
+      "blog/python-gds-klayout-klive/",
       "blog/",
       "search/",
     ]) {
@@ -67,7 +62,7 @@ try {
   assert.equal(await page.locator("html").getAttribute("data-theme"), "light");
   await page.goto(new URL("search/", origin).href);
   await page.waitForSelector(".pagefind-ui__search-input");
-  for (const term of ["研究", "Python", "Markdown", "差分"]) {
+  for (const term of ["KLayout", "Python", "GDS", "KLive"]) {
     await page.locator(".pagefind-ui__search-input").fill(term);
     await page.waitForTimeout(1500);
     assert.ok(
@@ -98,7 +93,7 @@ try {
     const data = await Promise.all(all.results.map((r) => r.data()));
     return data.map((d) => ({ url: d.url, title: d.meta.title }));
   }, origin);
-  assert.ok(indexed.length >= 4);
+  assert.ok(indexed.length === 2);
   assert.ok(indexed.every((p) => /\/blog\//.test(p.url)));
   assert.ok(indexed.every((p) => !p.title.includes("DRAFT_SENTINEL")));
   const draft = await page.goto(new URL("blog/draft-example/", origin).href);
@@ -114,7 +109,7 @@ try {
   assert.ok(!sitemap.includes("DraftOnly"));
   assert.deepEqual(failures, []);
   console.log(
-    "Verified routes, MD/MDX, math, Mermaid, TOC, responsive widths, themes, search, draft exclusion.",
+    "Verified routes, code blocks, TOC, responsive widths, themes, search, draft exclusion.",
   );
 } finally {
   await browser.close();
