@@ -772,6 +772,34 @@ video {
   width: max-content;
   min-width: 100%;
 }
+.prose .code-block {
+  position: relative;
+  margin: 25px 0;
+}
+.prose .code-block pre {
+  margin: 0;
+  padding-top: 58px;
+}
+.code-copy {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 7px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--panel);
+  color: var(--muted);
+  font-size: 12px;
+}
+.code-copy:hover,
+.code-copy:focus-visible {
+  color: var(--accent);
+  border-color: var(--accent);
+}
 .prose blockquote {
   border-left: 3px solid var(--accent);
   padding: 1px 20px;

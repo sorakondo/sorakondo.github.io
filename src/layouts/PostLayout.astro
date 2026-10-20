@@ -100,3 +100,47 @@ const related = (await allPosts())
     </section>
   )}
 </BaseLayout>
+
+<script>
+  const copyIcons = {
+    ready: '<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M15 9V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h4"/>',
+    success: '<path d="m5 12 4 4L19 6"/>',
+    error: '<path d="m6 6 12 12M18 6 6 18"/>',
+  };
+  document.querySelectorAll<HTMLPreElement>(".prose pre").forEach((pre) => {
+    const code = pre.querySelector("code");
+    if (!code || pre.parentElement?.classList.contains("code-block")) return;
+
+    const wrapper = document.createElement("div");
+    wrapper.className = "code-block";
+    pre.before(wrapper);
+    wrapper.append(pre);
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "code-copy";
+    function setState(state: keyof typeof copyIcons, label: string) {
+      button.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${copyIcons[state]}</svg>`;
+      button.setAttribute("aria-label", label);
+      button.title = label;
+    }
+    setState("ready", "コードをコピー");
+    button.setAttribute("aria-live", "polite");
+    button.setAttribute("data-pagefind-ignore", "");
+    wrapper.prepend(button);
+
+    button.addEventListener("click", async () => {
+      button.disabled = true;
+      try {
+        await navigator.clipboard.writeText(code.textContent ?? "");
+        setState("success", "コピーしました");
+      } catch {
+        setState("error", "コピーできませんでした");
+      }
+      window.setTimeout(() => {
+        setState("ready", "コードをコピー");
+        button.disabled = false;
+      }, 2000);
+    });
+  });
+</script>
