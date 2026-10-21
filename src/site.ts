@@ -5,8 +5,6 @@ export const profile = {
     "Sora Kondo のポートフォリオ・技術ブログ。",
   intro:
     "研究・開発の記録。",
-  notice:
-    "サンプル掲載中。プロフィール・研究実績は準備中です。",
   fields: ["研究ノート", "ソフトウェア", "ものづくり"],
   stack: ["Python", "TypeScript", "FPGA", "MEMS"], // 表示例。実際の使用技術に置き換えてください。
   education: ["学歴・経歴は準備中です。"],
