@@ -1,5 +1,6 @@
 export const profile = {
   name: "Sora Kondo",
+  avatar: "https://github.com/sorakondo.png?size=800",
   role: "Research & Engineering",
   description:
     "Sora Kondo のポートフォリオ・技術ブログ。",

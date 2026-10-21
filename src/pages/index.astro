@@ -29,23 +29,15 @@ const projects = (
       </div>
 
     </div>
-    <div class="hero-art" aria-hidden="true">
-      <div class="orbital orbital-one"></div>
-      <div class="orbital orbital-two"></div>
-      <div class="orbital orbital-three"></div>
-      <div class="art-axis axis-x"></div>
-      <div class="art-axis axis-y"></div>
-      <span class="art-point point-one"></span>
-      <span class="art-point point-two"></span>
-      <span class="art-coordinate">FIG. 01 — CONNECTING IDEAS</span>
-      <span class="art-label">
-        observation
-        <br />↓<br />
-        understanding
-      </span>
-      <span class="art-center">
-        s<span>.</span>
-      </span>
+    <div class="hero-art">
+      <img
+        class="hero-avatar"
+        src={profile.avatar}
+        alt={`${profile.name}のGitHubプロフィール写真`}
+        width="800"
+        height="800"
+        fetchpriority="high"
+      />
     </div>
   </section>
   <div class="field-strip">
